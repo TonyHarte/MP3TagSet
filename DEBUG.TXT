@@ -1,0 +1,106 @@
+    Main Handler     Notify Code 0036 is WM_GETMINMAXINFO
+    Main Handler     Notify Code 0129 is WM_NCCREATE
+    Main Handler     Notify Code 0131 is WM_NCCALCSIZE
+    Main Handler     Notify Code 0001 is WM_CREATE
+    Main Handler     Notify Code 0085 is WM_NOTIFYFORMAT
+    Main Handler     Notify Code 0297 is WM_QUERYUISTATE
+  
+=========================
+Demangling file -02 TheNumberOfTheBeast.mp3 with name length 27 (max is now 27)
+Extract_Proposed_Album
+Extract_Proposed_Track
+Extract_Proposed_Artist
+Extract_Proposed_Title
+ID3 Tag found with len 2038
+ISO
+**** Unknown Frame type APIC has length 13
+ISO
+  Unknown String is >>>image/jpg<<<
+ISO
+    Title Frame  TIT2 >>>TheNumberOfTheBeast?????<<<    with length 24 (max now 24)
+ISO
+ISO
+    Artist Frame TPE1 >>>Iron Maiden<<<    with length 11 (max now 20)
+**** Unknown Frame type TCON has length 9
+ISO
+  Unknown String is >>>Rock/Pop<<<
+ISO
+    Album Frame  TALB >>>Edward the Great<<<    with length 11 (max now 35)
+  
+=========================
+Demangling file 01 Put It There Pal - Bing Crosby and Bob Hope.mp3 with name length 50 (max is now 50)
+Extract_Proposed_Album
+Extract_Proposed_Track
+Extract_Proposed_Artist
+Extract_Proposed_Title
+ID3 Tag found with len 866
+UNICODE
+    Album Frame  TALB >>>Duets and More Change<<<    with length 0 (max now 35)
+UNICODE
+    Artist Frame TPE1 >>>Bing Crosby and Bob Hope<<<    with length 24 (max now 24)
+**** Unknown Frame type TCON has length 15
+UNICODE
+  Unknown String is >>>Oldies<<<
+ISO
+**** Unknown Frame type TMED has length 9
+UNICODE
+  Unknown String is >>>DIG<<<
+UNICODE
+    Title Frame  TIT2 >>>Put It There Pal<<<    with length 16 (max now 24)
+ISO
+  
+=========================
+Demangling file 905 Emerson, Lake and Palmer  103 - still_you_turn_me_on.mp3 with name length 60 (max is now 60)
+Extract_Proposed_Album
+Extract_Proposed_Track
+Extract_Proposed_Artist
+Extract_Proposed_Title
+ID3 Tag found with len 4086
+ISO
+    Title Frame  TIT2 >>>Still...You Turn Me On<<<    with length 22 (max now 29)
+ISO
+    Artist Frame TPE1 >>>Emerson, Lake & Palmer<<<    with length 22 (max now 24)
+ISO
+    Album Frame  TALB >>>Brain Salad Surgery<<<    with length 22 (max now 35)
+ISO
+**** Unknown Frame type TYER has length 5
+ISO
+  Unknown String is >>>2008<<<
+**** Unknown Frame type TCON has length 17
+ISO
+  Unknown String is >>>Progressive Rock<<<
+**** Unknown Frame type COMM has length 6
+ISO
+  Unknown String is >>>eng<<<
+**** Unknown Frame type TLAN has length 8
+ISO
+  Unknown String is >>>English<<<
+**** Unknown Frame type WXXX has length 62
+ISO
+  Unknown String is >>><<<
+  
+=========================
+Demangling file DL z05 The Time Is Now - Moloko.mp3 with name length 35 (max is now 60)
+Extract_Proposed_Album
+Extract_Proposed_Track
+Extract_Proposed_Artist
+Extract_Proposed_Title
+ID3 Tag Not found
+  
+=========================
+Demangling file Proud Mary - Credence Clearwater Revival.mp3 with name length 44 (max is now 60)
+Extract_Proposed_Album
+Extract_Proposed_Track
+Extract_Proposed_Artist
+Extract_Proposed_Title
+ID3 Tag Not found
+  
+=========================
+Demangling file z03 Runaround Sue - Dion & The Belmonts.mp3 with name length 43 (max is now 60)
+Extract_Proposed_Album
+Extract_Proposed_Track
+Extract_Proposed_Artist
+Extract_Proposed_Title
+ID3 Tag found with len 26611
+**** Unknown Frame type APIC has length 12957
+**** Unknown Frame type øwñZ;­3QÓ– has length 124475857

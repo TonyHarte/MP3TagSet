@@ -1,0 +1,67 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "Resources\resource.h"
+#include "windows.h"
+#include <commctrl.h>
+
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+// Icon
+//
+IDI_ICON1               ICON                    "Resources\\MP3TagSet.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+// Dialog
+//
+MYDIALOGNAME DIALOGEX 0, 0, 371, 210
+STYLE DS_SETFONT | DS_CONTROL | DS_CENTER | WS_CHILD | WS_VISIBLE | WS_CAPTION | WS_CLIPCHILDREN
+//FONT 8, "MS Shell Dlg 2", 0, 0, 0x0
+BEGIN
+    GROUPBOX    "Current Values", IDC_STATIC,
+                            10, 10, 100, 100,
+                            BS_CENTER | WS_GROUP
+                            , 
+                            WS_EX_TRANSPARENT
+
+    CONTROL 	"CurrVL", 	IDC_LIST, 
+							WC_LISTVIEW,
+
+							LVS_REPORT 
+//							| WS_CHILD | WS_VISIBLE  | WS_TABSTOP
+//                           | WS_BORDER
+//                            | WS_CLIPCHILDREN
+//                            | WS_EX_WINDOWEDGE
+//                            | WS_EX_CLIENTEDGE
+//                            | LVS_SINGLESEL 
+//                            | LVS_SHOWSELALWAYS 
+//                            | LVS_SORTASCENDING 
+//                            | LVS_NOSORTHEADER
+                           ,
+							50, 50, 100, 100,
+//                            WS_EX_WINDOWEDGE
+                             WS_EX_CLIENTEDGE
+//                            WS_EX_STATICEDGE
+
+
+
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_FIRSTCOLUMN         "Filename"
+    IDS_STRING1002          "Title"
+    IDS_STRING1003          "Artist"
+    IDS_STRING1004          "Album"
+    IDS_STRING1005          "Track"
+    IDS_STRING1006          "Time"
+END
