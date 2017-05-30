@@ -26,6 +26,8 @@
 #include "UG_ListView.h" 
 #include "UD_MainWindowHandler.h" 
 #include "Resources\resource.h" 
+
+//#include <Shlobj.h>
 //---------------------------------------------------------------------------
 
 
@@ -78,7 +80,7 @@ TEMPDEBUGNOTIFY("    Main Handler    ", message);
 */
 /*
      case WM_CTLCOLORSTATIC:
-        if(GetWindowLong( (HWND)lParam, GWL_ID) == IDC_STATIC)
+        if(GetWindowLong( (HWND)lParam, GWL_ID) == IDC_CURR_GROUPBOX)
            return MakeControlRed( (HDC)wParam );
 */
      default:
@@ -100,6 +102,7 @@ void D100_Handle_CREATE(HWND hWnd, WPARAM wParam, LPARAM lParam) {
     TEXTMETRIC tm;
     int     nCharAvgWidth, nCharMaxWidth, nCapsAvgWidth, nCharHeight;
     DWORD   LVExtendedStyle;
+    char *  sAlbum;
 /*------------------------------------*/
 //        G100_Create_LV_For_Current(hWnd); 
     hdc = GetDC(hWnd);
@@ -114,13 +117,15 @@ void D100_Handle_CREATE(HWND hWnd, WPARAM wParam, LPARAM lParam) {
     ReleaseDC (hWnd, hdc) ;
 
     D150_Create_Static_Controls(hWnd, wParam, lParam);
-
     hListWindow = G100_Create_LVControl_For_Proposed(hWnd); 
-    D000_Extract_ID3_Data();
-    hListWindow = CLVProposed.Handle();
+
+    hListWindow = CLVMediaInfo.Handle();
     G100_Setup_Header_Details();
     G200_Create_LV_ColumnHeaders(hListWindow, nCharAvgWidth);
-    G400_Insert_LV_Proposed_Data(hListWindow);
+
+    if (Album.Present() == 'Y') {
+        G400_Insert_LV_FileInfo_Data(hListWindow);
+    }
 
     LVExtendedStyle = ListView_GetExtendedListViewStyle(hListWindow); 
     LVExtendedStyle |= LVS_EX_DOUBLEBUFFER;
@@ -164,8 +169,7 @@ void D150_Create_Static_Controls(HWND hWnd, WPARAM wParam, LPARAM lParam) {
     sprintf(cErrorNumber, "%d", dwError);
     FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwError, 0, cErrorMessage, sizeof(cErrorMessage), NULL);
 
-
-    CProposedStatic.Handle_Store(hStaticWindow);
+    CMediaInfoStatic.Handle_Store(hStaticWindow);
 }
 
 
@@ -175,12 +179,29 @@ void D200_Handle_COMMAND(HWND hWnd, WPARAM wParam, LPARAM lParam) {
 //*
 //******************************************************************************
     int nResponse;
+    bool NewAlbumSelected;
+    HWND    hListWindow;
+
 #define IDM_EXIT        100
 #define IDM_HELP        101
 /*------------------------------------*/
     switch(LOWORD(wParam)) {
-     case IDM_EXIT:  
-        nResponse = MessageBox(hWnd, "Quit the Program?", "Exit", MB_YESNO);
+     case IDM_FILE_SELECTDIRECTORY:  
+        NewAlbumSelected = Album.Select(hWnd);
+
+        if (NewAlbumSelected == TRUE) {
+            hListWindow = CLVMediaInfo.Handle();
+            NewAlbumSelected = ListView_DeleteAllItems(hListWindow);
+            G400_Insert_LV_FileInfo_Data(hListWindow);
+
+            hListWindow = CLVCurrent.Handle();
+            NewAlbumSelected = ListView_DeleteAllItems(hListWindow);
+            G300_Insert_LV_ID3Tag_Data(hListWindow);
+        }
+        break;
+
+     case IDM_FILE_EXIT:  
+        nResponse = MessageBox(hWnd, "       Are you sure you want to quit?       ", "Exit", MB_YESNO);
 
         if (nResponse == IDYES) {
             PostQuitMessage(0);
@@ -216,12 +237,12 @@ void D300_Handle_SIZE(HWND hWnd, WPARAM wParam, LPARAM lParam) {
         SetWindowPos(hDialogWindow, HWND_TOP, 0, 0, rect.right, nHeight, SWP_NOZORDER);
     }
 
-    hChildWindow = CProposedStatic.Handle();
+    hChildWindow = CMediaInfoStatic.Handle();
     if  (hChildWindow != 0) {
         SetWindowPos(hChildWindow, HWND_TOP, 0, nHeight, rect.right, nHeight, SWP_SHOWWINDOW);
     }
 
-    hChildWindow = CLVProposed.Handle();
+    hChildWindow = CLVMediaInfo.Handle();
     if  (hChildWindow != 0) {
         SetWindowPos(hChildWindow, HWND_TOP, 5, nHeight + 20, rect.right - 10, nHeight - 28, SWP_SHOWWINDOW);
 //        ShowWindow(hChildWindow, SW_SHOW);

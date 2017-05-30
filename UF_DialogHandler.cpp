@@ -69,9 +69,13 @@ TEMPDEBUGNOTIFY("      Dialog Handler    ", message);
         WindowPositionFlags = SWP_SHOWWINDOW | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_DRAWFRAME;
         SetWindowPos(hDialog, HWND_TOP, rect.left, rect.top, rect.right, (rect.bottom / 2), WindowPositionFlags);
         hListWindow = GetDlgItem(hDialog, IDC_LIST);
+        CLVCurrent.Handle_Store(hListWindow);
 
         G200_Create_LV_ColumnHeaders(hListWindow, nCharAvgWidth);
-        G300_Insert_LV_Current_Data(hListWindow);
+
+        if (Album.Present() == 'Y') {
+            G300_Insert_LV_ID3Tag_Data(hListWindow);
+        }
 
 // Must use the following with WM_CLIPCHILDREN in the dialog
         LVExtendedStyle = ListView_GetExtendedListViewStyle(hListWindow); 
@@ -83,7 +87,7 @@ TEMPDEBUGNOTIFY("      Dialog Handler    ", message);
      case WM_SIZE: 
         GetClientRect(hDialog, &rect);
 
-        hChildWindow = GetDlgItem(hDialog, IDC_STATIC);
+        hChildWindow = GetDlgItem(hDialog, IDC_CURR_GROUPBOX);
         if  (hChildWindow != 0) {
             WindowPositionFlags = SWP_SHOWWINDOW | SWP_DEFERERASE |  SWP_NOCOPYBITS;
             SetWindowPos(hChildWindow, HWND_TOP, 0, 0, rect.right - 0, rect.bottom, WindowPositionFlags); //Needs to be offset to line up

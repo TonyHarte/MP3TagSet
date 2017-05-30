@@ -46,6 +46,8 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
+				Culture="0"
+				ShowProgress="false"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -60,6 +62,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				UseUnicodeResponseFiles="false"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -150,19 +153,23 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\CAlbum.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CError.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\CFile.cpp"
+				RelativePath=".\CFileIO.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\CID3Tag.cpp"
+				RelativePath=".\CID3v2Tag.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\CProposedValues.cpp"
+				RelativePath=".\CMP3File.cpp"
 				>
 			</File>
 			<File
@@ -196,19 +203,23 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\CAlbum.h"
+				>
+			</File>
+			<File
 				RelativePath=".\CError.h"
 				>
 			</File>
 			<File
-				RelativePath=".\CFile.h"
+				RelativePath=".\CFileIO.h"
 				>
 			</File>
 			<File
-				RelativePath=".\CID3Tag.h"
+				RelativePath=".\CID3v2Tag.h"
 				>
 			</File>
 			<File
-				RelativePath=".\CProposedValues.h"
+				RelativePath=".\CMP3File.h"
 				>
 			</File>
 			<File

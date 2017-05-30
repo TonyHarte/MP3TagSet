@@ -8,7 +8,7 @@
 
 
 
-void Window::Attrs_Store(char * sPassedClassname, HINSTANCE ThisInst, HINSTANCE PrevInst)
+void Window::Store_Attrs(char * sPassedClassname, HINSTANCE hThisInst, HINSTANCE hPrevInst, HMENU hPassedMenu)
 //*****************************************************************************
 //* Store Main, parent window definitions
 //*****************************************************************************
@@ -17,42 +17,29 @@ void Window::Attrs_Store(char * sPassedClassname, HINSTANCE ThisInst, HINSTANCE 
 //    Len = strlen(sPassedClassname);
     Len = 30;
     strcpy_s(sClassName, Len, sPassedClassname);
-    hProgramInstance = ThisInst;
-    hPreviousInstance = PrevInst;
+    hProgramInstance = hThisInst;
+    hPreviousInstance = hPrevInst;
+    hMenu = hPassedMenu;
 }
 
 
 
-void Window::Handle_Store(HWND hMainWindowHandle)
+void Window::Handle_Store(HWND hMainWindowHandle) {
 //*****************************************************************************
 //* Store Main, parent window handle after created
 //*****************************************************************************
-{   
 /*--------------------------------*/
     hHandle = hMainWindowHandle;
 }
 
 
+//*****************************************************************************
+//     Get Type Functions
+//*****************************************************************************
+HINSTANCE   Window::Program_Instance(void)  {return hProgramInstance;}
 
-HINSTANCE Window::Program_Instance(void) {
-//*****************************************************************************
-//*****************************************************************************
-/*--------------------------------*/
-    return hProgramInstance;
-}
+char *      Window::ClassName(void)         {return sClassName;}
 
+HWND        Window::Handle(void)            {return hHandle;}
 
-char * Window::ClassName(void) {
-//*****************************************************************************
-//*****************************************************************************
-/*--------------------------------*/
-    return sClassName;
-}
-
-
-HWND Window::Handle(void) {
-//*****************************************************************************
-//*****************************************************************************
-/*--------------------------------*/
-    return hHandle;
-}
+HMENU       Window::Menu(void)              {return hMenu;}

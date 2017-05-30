@@ -1,6 +1,4 @@
-#include <vector>
-#include "CID3Tag.h"
-#include "CProposedValues.h"
+#include "CAlbum.h"
 
 #ifndef AJHMP3SetTag 
     #define AJHMP3SetTag
@@ -14,16 +12,11 @@
 AJHEXTERN1_ Window  CMainWin;
 AJHEXTERN1_ Window  CDialogCurrent;
 AJHEXTERN1_ Window  CLVCurrent;
-AJHEXTERN1_ Window  CLVProposed;
-AJHEXTERN1_ Window  CProposedStatic;
+AJHEXTERN1_ Window  CLVMediaInfo;
+AJHEXTERN1_ Window  CMediaInfoStatic;
 
-typedef std::vector<CID3Tag>    ID3VECTOR;
-AJHEXTERN1_ ID3VECTOR           vTag;
-AJHEXTERN1_ ID3VECTOR::iterator ID3ind;
+AJHEXTERN1_ CAlbum  Album;
 
-typedef std::vector<CProposedValues>    PROPVALVECTOR;
-AJHEXTERN1_ PROPVALVECTOR               vProposed;
-AJHEXTERN1_ PROPVALVECTOR::iterator     PVind;
 
 
 #define SPACING         8

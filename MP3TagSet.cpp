@@ -10,6 +10,7 @@
 
 #include <windows.h>
 #include <commctrl.h>
+#include <Objbase.h>
 
 //****************** TEMP TEMP DELETE *************
 #include "TEMPDEBUG.h"
@@ -21,10 +22,9 @@
 #include "UD_MainWindowHandler.h" 
 #include "UF_DialogHandler.h" 
 #include "Resources\resource.h" 
-#include "CID3Tag.h"
-#include "CProposedValues.h"
+#include "CID3v2Tag.h"
+#include "CMP3File.h"
 #include "EnforceCCVersion6.h"
-
 
 
 int WINAPI WinMain(HINSTANCE hThisInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWinMode)
@@ -45,10 +45,11 @@ int WINAPI WinMain(HINSTANCE hThisInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int
     cc.dwICC = ICC_LISTVIEW_CLASSES;
     cc.dwSize = sizeof(INITCOMMONCONTROLSEX);
     InitCommonControlsEx(&cc); 
- 
+    //DWORD coinit = COINIT_SPEED_OVER_MEMORY;
+    CoInitialize(NULL);
+
     A200_Register_Windows();
     A300_Create_Main_Window();
-
 
     hMainWindow = CMainWin.Handle();
     /* Display the window. */
@@ -85,8 +86,13 @@ void A100_Program_Genesis(HINSTANCE hThisInst, HINSTANCE hPrevInst)
 //*****************************************************************************
 {/*   unsigned long    lResult;
     unsigned long    lDatatype, lDatasize; */
+    HMENU   hMenu;
+    DWORD   dDirectoryAttributes;
 /*--------------------------------*/
-    CMainWin.Attrs_Store("MP3TagSet Main Window", hThisInst, hPrevInst);
+    hMenu = LoadMenu(hThisInst, MAKEINTRESOURCE(MP3TagSet_MENU));
+    CMainWin.Store_Attrs("MP3TagSet Main Window", hThisInst, hPrevInst, hMenu);
+    Album.Set("E:\\Source\\MP3TagSet Other\\A Little More Sophistication Vol 52");
+
 
 /*    RegCreateKeyEx(HKEY_CURRENT_USER, "Software\\AJHarte\\Midi Jukebox", 0,
                     "Configuration", 0, KEY_ALL_ACCESS, NULL,
@@ -132,7 +138,6 @@ void A200_Register_Windows(void)
 /*--------------------------------*/
     hProgramInstance = CMainWin.Program_Instance();
     sWindowClassName = CMainWin.ClassName();
-
     gMainWindow.cbSize          = sizeof(WNDCLASSEX); 
     gMainWindow.hInstance       = hProgramInstance;        
 
@@ -146,7 +151,7 @@ void A200_Register_Windows(void)
     gMainWindow.hIconSm         = LoadIcon(gMainWindow.hInstance, "MP3TagSet");
     gMainWindow.hCursor         = LoadCursor(NULL, IDC_ARROW);
 
-    gMainWindow.lpszMenuName    = "AJH_MP3TagSet";
+    gMainWindow.lpszMenuName    = NULL;
     gMainWindow.cbClsExtra      = 0;                    /* no extra */
     gMainWindow.cbWndExtra      = 0;                    /* information needed */
 
@@ -176,24 +181,21 @@ void A300_Create_Main_Window(void)
     HINSTANCE   hProgramInstance;
     DWORD       gWindowExtendedStyle;
     DWORD       gWindowStyle;
+    HMENU       hMenu;
 /*--------------------------------*/
     sMainWinClassName = CMainWin.ClassName();
     hProgramInstance = CMainWin.Program_Instance();
+    hMenu = CMainWin.Menu();
     gWindowExtendedStyle = WS_EX_WINDOWEDGE | WS_EX_CLIENTEDGE;
 
     gWindowStyle =    WS_VISIBLE  
-//                    | WS_BORDER
                     | WS_CLIPCHILDREN
-//                    | WS_OVERLAPPEDWINDOW   /* standard window */
-//                    | WS_OVERLAPPED 
                     | WS_CAPTION 
                     | WS_SYSMENU 
                     | WS_THICKFRAME 
                     | WS_MINIMIZEBOX 
                     | WS_MAXIMIZEBOX
                     ;
-//                    WS_VISIBLE|WS_BORDER|WS_CLIPCHILDREN|
-//                    WS_OVERLAPPEDWINDOW|WS_VSCROLL|WS_HSCROLL,  /* standard window */
 
     hMainWindow =   CreateWindow(
 //                    gWindowExtendedStyle,
@@ -205,7 +207,7 @@ void A300_Create_Main_Window(void)
 //              gCFG.nMainX, gCFG.nMainY,
 //              gCFG.nMainWidth, gCFG.nMainHeight,
                     HWND_DESKTOP,                           /* no parent window */
-                    NULL,                                   /* no override of class menu */
+                    hMenu,                                   
                     hProgramInstance,                       /* handle of this instance of the program */
                     NULL                                    /* no additional arguments */
   );
@@ -217,48 +219,7 @@ void A300_Create_Main_Window(void)
 */
     CMainWin.Handle_Store(hMainWindow);
 }  
-
-
-
-void D000_Extract_ID3_Data(void) {
-//******************************************************************************
-//* 
-//******************************************************************************
-    CID3Tag gCurrTag;
-    CProposedValues gProposed;
-    int     ix;
-    char    sFileFound;
-    size_t  nDirLen;
-    char    sPath[MAX_PATH] = "E:\\Source\\MP3TagSet Other\\A Little More Sophistication Vol 52\\";
-    char    sDir[MAX_PATH];
-    WIN32_FIND_DATA FileData;
-    HANDLE  RC;
-/*------------------------------------*/
-    strcpy(sDir, sPath);
-    strcat(sDir, "\\*.mp3");      //this will return all mp3 files
-    RC = FindFirstFile(sDir, &FileData);
-
-    if (RC == INVALID_HANDLE_VALUE)  
-        sFileFound = 'N';
-    else {
-        sFileFound = 'Y';
-    } 
-    
-    while (sFileFound == 'Y') {
-        if ((FileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0) {
-            strcpy(sDir, sPath);
-            strcat(sDir, FileData.cFileName);      //this will return all files
-            gCurrTag.Extract(sDir);
-            vTag.push_back(gCurrTag);
-            gProposed.Extract(sDir);
-            vProposed.push_back(gProposed);
-       }
-            
-        if (FindNextFile(RC, &FileData) == 0) {
-            sFileFound = 'N';
-        }
-    }
-}    
+ 
 
 
 

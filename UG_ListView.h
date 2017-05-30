@@ -21,8 +21,8 @@ AJHEXTERN4_ struct ColumnDetails gColumn[NUMCOLS];
 void G100_Setup_Header_Details(void);
 HWND G100_Create_LV_For_Current(HWND);
 HWND G100_Create_LVControl_For_Proposed(HWND);
-void G300_Insert_LV_Current_Data(HWND);
-void G400_Insert_LV_Proposed_Data(HWND);
+void G300_Insert_LV_ID3Tag_Data(HWND);
+void G400_Insert_LV_FileInfo_Data(HWND);
 void E320_Populate_LV_Current(HWND);
 
 void G200_Create_LV_ColumnHeaders(HWND, int);

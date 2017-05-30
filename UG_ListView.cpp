@@ -16,7 +16,7 @@
 using namespace std;
 #define  UG_ListView
 #include "CWindow.h"
-#include "CID3Tag.h"
+#include "CAlbum.h"
 #include "MP3TagSet.h"
 #include "UG_ListView.h" 
 #include "Resources\resource.h" 
@@ -37,10 +37,10 @@ void G100_Setup_Header_Details(void) {
         LoadString(hProgramInstance, IDS_FIRSTCOLUMN + nCol, gColumn[nCol].Title, COLTEXTWIDTH); // Load the names of the column headings from the string resources.
     }
 
-    gColumn[0].Width = min(50, CID3Tag::nMaxFileNameLen);
-    gColumn[1].Width = min(50, CID3Tag::nMaxTitleLen);
-    gColumn[2].Width = CID3Tag::nMaxArtistLen;
-    gColumn[3].Width = CID3Tag::nMaxAlbumLen;
+    gColumn[0].Width = min(50, CID3v2Tag::nMaxFileNameLen);
+    gColumn[1].Width = min(50, CID3v2Tag::nMaxTitleLen);
+    gColumn[2].Width = CID3v2Tag::nMaxArtistLen;
+    gColumn[3].Width = CID3v2Tag::nMaxAlbumLen;
     gColumn[4].Width = 10;
 }
 
@@ -102,7 +102,7 @@ HWND G100_Create_LVControl_For_Proposed(HWND hParent) {
                     NULL,                         //(HMENU) ID_LISTVIEW,
                     hProgramInstance, NULL);
 
-    CLVProposed.Handle_Store(hListWindow);
+    CLVMediaInfo.Handle_Store(hListWindow);
  
     return hListWindow;
 }
@@ -132,57 +132,58 @@ void G200_Create_LV_ColumnHeaders(HWND hListWindow, int nCharWidth) {
 
 
 
-void G300_Insert_LV_Current_Data(HWND hListWindow) {
+void G300_Insert_LV_ID3Tag_Data(HWND hListWindow) {
 //******************************************************************************
 //* NOTE: have to insert ALL the  items before can update the sub-items
 //******************************************************************************
     char    szText[MAX_PATH];     // Temporary buffer.
     LVITEM  LvItem;
-    CID3Tag gCurrTag; 
     int nRow = 0, nCol = 0;
     LRESULT RC;
     int size = 0;
     int nLen = 0;
-    COLORREF colours;
-/*------------------------------------*/
-    size = vTag.size();
-    ListView_SetItemCount(hListWindow, vTag.size());
 
-    for (ID3ind = vTag.begin(); ID3ind != vTag.end(); ID3ind++) {
+    CMP3File cMP3File; 
+    vector<CMP3File>::iterator     FVind;                  //Initiator into the file detail vector
+/*------------------------------------*/
+    size = Album.TrackCount();
+    ListView_SetItemCount(hListWindow, Album.TrackCount());
+
+    for (FVind = Album.Files_Start(); FVind != Album.Files_End(); FVind++) {
         memset(&LvItem, 0, sizeof(LvItem));     // Clear down struct's Members
 
         LvItem.iItem        = nRow++;           // Row we are inserting  
         LvItem.mask         = LVIF_TEXT;        // Text Style
         LvItem.cchTextMax   = MAX_PATH;         // Max size of test
-        gCurrTag            = *(ID3ind);
+        cMP3File            = *(FVind);
 
-//=================================
+        //=================================
         LvItem.iSubItem     = 0;
-        strcpy_s(szText, MAX_PATH, gCurrTag.File_Name()); 
+        strcpy_s(szText, MAX_PATH, cMP3File.File_Name()); 
         LvItem.pszText = szText;
         RC = SendMessage(hListWindow, LVM_INSERTITEM, 0, (LPARAM)&LvItem); // Insert Item into Listview
 
-//=================================
+        //=================================
         LvItem.iSubItem     = 1;
-        strcpy_s(szText, MAX_PATH, gCurrTag.Title());
+        strcpy_s(szText, MAX_PATH, cMP3File.TagTitle());
         LvItem.pszText = szText;
         SendMessage(hListWindow, LVM_SETITEM, 0, (LPARAM)&LvItem); // Enter text to SubItems
 
-//=================================
+        //=================================
         LvItem.iSubItem     = 2;
-        strcpy_s(szText, MAX_PATH, gCurrTag.Artist());
+        strcpy_s(szText, MAX_PATH, cMP3File.TagArtist());
         LvItem.pszText = szText;
         SendMessage(hListWindow, LVM_SETITEM, 0, (LPARAM)&LvItem); // Enter text to SubItems
 
-//=================================
+        //=================================
         LvItem.iSubItem     = 3;
-        strcpy_s(szText, MAX_PATH, gCurrTag.Album());
+        strcpy_s(szText, MAX_PATH, cMP3File.TagAlbum());
         LvItem.pszText = szText;
         SendMessage(hListWindow, LVM_SETITEM, 0, (LPARAM)&LvItem); // Enter text to SubItems
 
-//=================================
+        //=================================
         LvItem.iSubItem     = 4;
-        strcpy_s(szText, MAX_PATH, gCurrTag.Track());
+        strcpy_s(szText, MAX_PATH, cMP3File.TagTrack());
         LvItem.pszText = szText;
         SendMessage(hListWindow, LVM_SETITEM, 0, (LPARAM)&LvItem); // Enter text to SubItems
     }
@@ -190,57 +191,59 @@ void G300_Insert_LV_Current_Data(HWND hListWindow) {
 
 
 
-void G400_Insert_LV_Proposed_Data(HWND hListWindow) {
+void G400_Insert_LV_FileInfo_Data(HWND hListWindow) {
 //******************************************************************************
 //* NOTE: have to insert ALL the  items before can update the sub-items
 //******************************************************************************
     char    szText[MAX_PATH];     // Temporary buffer.
     LVITEM  LvItem;
-    CProposedValues gProposed; 
     int nRow = 0, nCol = 0;
     LRESULT RC;
     int size = 0;
     int nLen = 0;
-    COLORREF colours;
-/*------------------------------------*/
-    size = vProposed.size();
-    ListView_SetItemCount(hListWindow, vProposed.size());
 
-    for (PVind = vProposed.begin(); PVind != vProposed.end(); PVind++) {
+    CMP3File gTrackInfo; 
+    std::vector<CMP3File>::iterator     FVind;                  //Initiator into the file detail vector
+/*------------------------------------*/
+    size = Album.TrackCount();
+    ListView_SetItemCount(hListWindow, Album.TrackCount());
+
+    for (FVind = Album.Files_Start(); FVind != Album.Files_End(); FVind++) {
+//    for (FVind = tFileTable.begin(); FVind != tFileTable.end(); FVind++) {
         memset(&LvItem, 0, sizeof(LvItem));     // Clear down struct's Members
 
         LvItem.iItem        = nRow++;           // Row we are inserting  
         LvItem.mask         = LVIF_TEXT;        // Text Style
         LvItem.cchTextMax   = MAX_PATH;         // Max size of test
-        gProposed            = *(PVind);
+        gTrackInfo           = *(FVind);
 
-//=================================
+        //=================================
         LvItem.iSubItem     = 0;
-        strcpy_s(szText, MAX_PATH, gProposed.File_Name()); 
+        strcpy_s(szText, MAX_PATH, gTrackInfo.File_Name()); 
         LvItem.pszText = szText;
         RC = SendMessage(hListWindow, LVM_INSERTITEM, 0, (LPARAM)&LvItem); // Insert Item into Listview
 
-//=================================
+        //=================================
         LvItem.iSubItem     = 1;
-        strcpy_s(szText, MAX_PATH, gProposed.Title());
+        strcpy_s(szText, MAX_PATH, gTrackInfo.Title());
         LvItem.pszText = szText;
         SendMessage(hListWindow, LVM_SETITEM, 0, (LPARAM)&LvItem); // Enter text to SubItems
 
-//=================================
+        //=================================
         LvItem.iSubItem     = 2;
-        strcpy_s(szText, MAX_PATH, gProposed.Artist());
+        strcpy_s(szText, MAX_PATH, gTrackInfo.Artist());
         LvItem.pszText = szText;
         SendMessage(hListWindow, LVM_SETITEM, 0, (LPARAM)&LvItem); // Enter text to SubItems
 
-//=================================
+        //=================================
         LvItem.iSubItem     = 3;
-        strcpy_s(szText, MAX_PATH, gProposed.Album());
+        strcpy_s(szText, MAX_PATH, Album.Name());
         LvItem.pszText = szText;
         SendMessage(hListWindow, LVM_SETITEM, 0, (LPARAM)&LvItem); // Enter text to SubItems
 
-//=================================
+        //=================================
         LvItem.iSubItem     = 4;
-        strcpy_s(szText, MAX_PATH, gProposed.Track());
+        strcpy_s(szText, MAX_PATH, gTrackInfo.Track());
         LvItem.pszText = szText;
         SendMessage(hListWindow, LVM_SETITEM, 0, (LPARAM)&LvItem); // Enter text to SubItems
     }

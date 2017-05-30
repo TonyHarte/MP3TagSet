@@ -23,7 +23,7 @@ void D300_Handle_SIZE(HWND, WPARAM, LPARAM);
 LRESULT D400_Handle_NOTIFY(HWND, WPARAM, LPARAM);
 void D500_Handle_PAINT(HWND);
 
-void D000_Extract_ID3_Data(void);
+void D000_Extract_ID3_Data(char *);
 
 //*******************FUNCTION PROTOTYPES***********************
 #endif
