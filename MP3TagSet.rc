@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "Resources\resource.h"
+#include "resource.h"
 #include "windows.h"
 #include <commctrl.h>
 
@@ -12,7 +12,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
 /////////////////////////////////////////////////////////////////////////////
 // Icon
 //
-IDI_ICON1               ICON                    "Resources\\MP3TagSet.ico"
+IDI_ICON1               ICON                    "MP3TagSet.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 // Dialog
@@ -21,9 +21,10 @@ MYDIALOGNAME DIALOGEX 0, 0, 371, 210
 STYLE DS_SETFONT | DS_CONTROL | DS_CENTER | WS_CHILD | WS_VISIBLE | WS_CAPTION | WS_CLIPCHILDREN
 //FONT 8, "MS Shell Dlg 2", 0, 0, 0x0
 BEGIN
-    GROUPBOX    "Current Values", IDC_STATIC,
+    GROUPBOX    "Current Values", IDC_CURR_GROUPBOX,
                             10, 10, 100, 100,
-                            BS_CENTER | WS_GROUP
+//                            BS_CENTER | WS_GROUP
+                            WS_GROUP
                             , 
                             WS_EX_TRANSPARENT
 
@@ -47,6 +48,22 @@ BEGIN
 //                            WS_EX_STATICEDGE
 
 
+
+END
+
+MP3TagSet_MENU MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "Select Directory",            IDM_FILE_SELECTDIRECTORY
+        MENUITEM SEPARATOR
+        MENUITEM "Exit",                        IDM_FILE_EXIT
+    END
+
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About PopPad...",            IDM_ABOUT
+    END
 
 END
 
